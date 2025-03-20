@@ -1,85 +1,63 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Import GSAP
-    gsap.registerPlugin()
-  
-    // Sidebar Toggle
-    const sidebarToggle = document.getElementById("sidebar-toggle")
-    const sidebar = document.querySelector(".sidebar")
-  
+    gsap.registerPlugin();
+
+    // Sidebar Toggle with Toggle Icon Always Visible
+    const sidebarToggle = document.getElementById("sidebar-toggle");
+    const sidebar = document.querySelector(".sidebar");
+    const mainContent = document.querySelector(".main-content");
+    
     sidebarToggle.addEventListener("click", () => {
-      sidebar.classList.toggle("collapsed")
-    })
-  
-    // Navigation
-    const navItems = document.querySelectorAll(".nav-item")
-    const contentSections = document.querySelectorAll(".content-section")
-  
+        sidebar.classList.toggle("collapsed");
+        mainContent.classList.toggle("expanded");
+    });
+
+    // Ensure toggle icon remains visible even when sidebar is collapsed
+    sidebarToggle.style.position = "fixed";
+    sidebarToggle.style.left = "15px";
+    sidebarToggle.style.top = "15px";
+    sidebarToggle.style.zIndex = "1001";
+    // Navigation Fix (Prevent Fading Out)
+    const navItems = document.querySelectorAll(".nav-item");
+    const contentSections = document.querySelectorAll(".content-section");
+
     navItems.forEach((item) => {
-      item.addEventListener("click", function () {
-        // Remove active class from all nav items
-        navItems.forEach((nav) => nav.classList.remove("active"))
+        item.addEventListener("click", function () {
+            navItems.forEach((nav) => nav.classList.remove("active"));
+            this.classList.add("active");
+            
+            const sectionId = this.getAttribute("data-section");
+            contentSections.forEach((section) => {
+                section.classList.remove("active");
+                section.style.opacity = 1;
+                
+                if (section.id === sectionId) {
+                    section.classList.add("active");
+                    gsap.from(section, { opacity: 0, y: 20, duration: 0.5, ease: "power2.out" });
+                }
+            });
+        });
+    });
   
-        // Add active class to clicked nav item
-        this.classList.add("active")
-  
-        // Show corresponding content section
-        const sectionId = this.getAttribute("data-section")
-        contentSections.forEach((section) => {
-          section.classList.remove("active")
-          if (section.id === sectionId) {
-            section.classList.add("active")
-  
-            // Apply entrance animation
-            gsap.from(section, {
-              opacity: 0,
-              y: 20,
-              duration: 0.5,
-              ease: "power2.out",
-            })
-          }
-        })
-      })
-    })
-  
-    // Countdown Timer
-    function updateCountdown() {
-      // Set the target time (2:00 PM today)
-      const now = new Date()
-      const targetHour = 14 // 2 PM
-      const targetMinute = 0
-  
-      const targetTime = new Date(now)
-      targetTime.setHours(targetHour, targetMinute, 0, 0)
-  
-      // If the target time has already passed today, set it for tomorrow
-      if (now > targetTime) {
-        targetTime.setDate(targetTime.getDate() + 1)
-      }
-  
-      // Calculate the time difference
-      const diff = targetTime - now
-  
-      // Calculate hours, minutes, and seconds
-      const hours = Math.floor(diff / (1000 * 60 * 60))
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000)
-  
-      // Update the countdown elements
-      const countdownElement = document.getElementById("countdown")
-      const sessionCountdownElement = document.getElementById("session-countdown")
-  
-      if (countdownElement) {
-        countdownElement.textContent = `${hours}h ${minutes}m ${seconds}s`
-      }
-  
-      if (sessionCountdownElement) {
-        sessionCountdownElement.textContent = `${hours}h ${minutes}m`
-      }
+     // Countdown Timer Fix
+     function updateCountdown() {
+        const now = new Date();
+        const targetTime = new Date();
+        targetTime.setHours(14, 0, 0, 0);
+        if (now > targetTime) {
+            targetTime.setDate(targetTime.getDate() + 1);
+        }
+        const diff = targetTime - now;
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        
+        const countdownElement = document.getElementById("countdown");
+        if (countdownElement) {
+            countdownElement.textContent = `${hours}h ${minutes}m ${seconds}s`;
+        }
     }
-  
-    // Update countdown every second
-    setInterval(updateCountdown, 1000)
-    updateCountdown() // Initial update
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
   
     // Request Actions
     const acceptButtons = document.querySelectorAll(".accept-btn")
@@ -127,136 +105,166 @@ document.addEventListener("DOMContentLoaded", () => {
       })
     })
   
-    // Calendar Navigation
-    const calendarPrev = document.querySelector(".calendar-nav.prev")
-    const calendarNext = document.querySelector(".calendar-nav.next")
-    const calendarTitle = document.querySelector(".calendar-header h2")
-  
-    if (calendarPrev && calendarNext) {
-      let currentMonth = new Date().getMonth()
-      let currentYear = new Date().getFullYear()
-  
-      calendarPrev.addEventListener("click", () => {
-        currentMonth--
+     // Calendar Fix (Dynamic Month Updates with Current Date Highlight)
+     function updateCalendar(month, year) {
+        const calendarDays = document.querySelector(".calendar-days");
+        const calendarTitle = document.querySelector(".calendar-header h2");
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const firstDay = new Date(year, month, 1).getDay();
+        const today = new Date();
+        const currentDate = today.getDate();
+        const isCurrentMonth = today.getMonth() === month && today.getFullYear() === year;
+        
+        calendarDays.innerHTML = "";
+        calendarTitle.textContent = `${new Date(year, month).toLocaleString('default', { month: 'long' })} ${year}`;
+        
+        for (let i = 0; i < firstDay; i++) {
+            const emptyDiv = document.createElement("div");
+            emptyDiv.classList.add("day", "empty");
+            calendarDays.appendChild(emptyDiv);
+        }
+        
+        for (let i = 1; i <= daysInMonth; i++) {
+            const dayDiv = document.createElement("div");
+            dayDiv.classList.add("day");
+            dayDiv.textContent = i;
+            
+            if (isCurrentMonth && i === currentDate) {
+                dayDiv.classList.add("current-day");
+                dayDiv.style.backgroundColor = "#00d68f";
+                dayDiv.style.color = "#fff";
+                dayDiv.style.borderRadius = "50%";
+            }
+            
+            calendarDays.appendChild(dayDiv);
+        }
+    }
+    
+    let currentMonth = new Date().getMonth();
+    let currentYear = new Date().getFullYear();
+    document.querySelector(".calendar-nav.prev").addEventListener("click", () => {
+        currentMonth--;
         if (currentMonth < 0) {
-          currentMonth = 11
-          currentYear--
+            currentMonth = 11;
+            currentYear--;
         }
-        updateCalendarTitle()
-      })
-  
-      calendarNext.addEventListener("click", () => {
-        currentMonth++
+        updateCalendar(currentMonth, currentYear);
+    });
+    document.querySelector(".calendar-nav.next").addEventListener("click", () => {
+        currentMonth++;
         if (currentMonth > 11) {
-          currentMonth = 0
-          currentYear++
+            currentMonth = 0;
+            currentYear++;
         }
-        updateCalendarTitle()
-      })
+        updateCalendar(currentMonth, currentYear);
+    });
+    updateCalendar(currentMonth, currentYear);
   
-      function updateCalendarTitle() {
-        const months = [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-          "August",
-          "September",
-          "October",
-          "November",
-          "December",
-        ]
-        calendarTitle.textContent = `${months[currentMonth]} ${currentYear}`
-      }
-    }
-  
-    // Chat Functionality
-    const chatInput = document.getElementById("chat-input")
-    const chatSendBtn = document.getElementById("chat-send-btn")
-    const chatMessages = document.getElementById("chat-messages")
-  
-    if (chatInput && chatSendBtn && chatMessages) {
-      chatSendBtn.addEventListener("click", sendMessage)
-      chatInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
-          sendMessage()
+     // Chat Section - Enable Switching Between Contacts
+     // Chat Section - Enable Switching & Sending Messages
+    const chatContacts = document.querySelectorAll(".chat-contact");
+    const chatUserName = document.querySelector(".chat-user h3");
+    const chatMessages = document.getElementById("chat-messages");
+    const chatUserImage = document.querySelector(".chat-user img");
+    const chatInput = document.getElementById("chat-input");
+    const chatSendBtn = document.getElementById("chat-send-btn");
+
+    let currentChatUser = "Sarah (CloudScale)";
+
+    const chatData = {
+        "Sarah (CloudScale)": [],
+        "Mike (DataViz)": [],
+        "Lisa (NexGen AI)": [],
+        "David (EcoSmart)": []
+    };
+
+    function loadChat(user) {
+        chatMessages.innerHTML = "";
+        if (chatData[user].length === 0) {
+            chatMessages.innerHTML = "<p class='no-messages'>No messages yet. Start a conversation!</p>";
+        } else {
+            chatData[user].forEach(msg => {
+                const messageDiv = document.createElement("div");
+                messageDiv.classList.add("message", msg.type);
+                messageDiv.innerHTML = `
+                    <div class="message-content">
+                        <p>${msg.text}</p>
+                        <span class="message-time">${msg.time}</span>
+                    </div>
+                `;
+                chatMessages.appendChild(messageDiv);
+            });
         }
-      })
-  
-      function sendMessage() {
-        const message = chatInput.value.trim()
-        if (message === "") return
-  
-        // Get current time
-        const now = new Date()
-        const hours = now.getHours()
-        const minutes = now.getMinutes()
-        const ampm = hours >= 12 ? "PM" : "AM"
-        const formattedHours = hours % 12 || 12
-        const formattedMinutes = minutes < 10 ? "0" + minutes : minutes
-        const timeString = `${formattedHours}:${formattedMinutes} ${ampm}`
-  
-        // Create message element
-        const messageElement = document.createElement("div")
-        messageElement.className = "message sent"
-        messageElement.innerHTML = `
-                  <div class="message-content">
-                      <p>${message}</p>
-                      <span class="message-time">${timeString}</span>
-                  </div>
-              `
-  
-        // Add message to chat
-        chatMessages.appendChild(messageElement)
-  
-        // Clear input
-        chatInput.value = ""
-  
-        // Scroll to bottom
-        chatMessages.scrollTop = chatMessages.scrollHeight
-  
-        // Simulate a response after 1-3 seconds
-        setTimeout(simulateResponse, Math.random() * 2000 + 1000)
-      }
-  
-      function simulateResponse() {
-        const responses = [
-          "I'll check with our team and get back to you.",
-          "That's a great point! We'll incorporate that feedback.",
-          "Yes, I do have several contacts at VC firms specializing in cloud infrastructure. I'll send you some introductions after our session today.",
-          "Thanks for sharing the updated deck. I'll review it before our call.",
-        ]
-  
-        // Get current time
-        const now = new Date()
-        const hours = now.getHours()
-        const minutes = now.getMinutes()
-        const ampm = hours >= 12 ? "PM" : "AM"
-        const formattedHours = hours % 12 || 12
-        const formattedMinutes = minutes < 10 ? "0" + minutes : minutes
-        const timeString = `${formattedHours}:${formattedMinutes} ${ampm}`
-  
-        // Create message element
-        const messageElement = document.createElement("div")
-        messageElement.className = "message received"
-        messageElement.innerHTML = `
-                  <img src="/placeholder.svg?height=40&width=40" alt="User">
-                  <div class="message-content">
-                      <p>${responses[Math.floor(Math.random() * responses.length)]}</p>
-                      <span class="message-time">${timeString}</span>
-                  </div>
-              `
-  
-        // Add message to chat
-        chatMessages.appendChild(messageElement)
-  
-        // Scroll to bottom
-        chatMessages.scrollTop = chatMessages.scrollHeight
-      }
+        chatMessages.scrollTop = chatMessages.scrollHeight;
     }
+
+    chatContacts.forEach(contact => {
+        contact.addEventListener("click", function () {
+            document.querySelector(".chat-contact.active")?.classList.remove("active");
+            this.classList.add("active");
+
+            currentChatUser = this.querySelector("h3").textContent;
+            chatUserName.textContent = currentChatUser;
+            chatUserImage.src = this.querySelector("img").src;
+
+            loadChat(currentChatUser);
+        });
+    });
+
+    function sendMessage() {
+        const message = chatInput.value.trim();
+        if (message === "") return;
+
+        const now = new Date();
+        const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        
+        const messageDiv = document.createElement("div");
+        messageDiv.classList.add("message", "sent");
+        messageDiv.innerHTML = `
+            <div class="message-content">
+                <p>${message}</p>
+                <span class="message-time">${timeString}</span>
+            </div>
+        `;
+
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        chatData[currentChatUser].push({ type: "sent", text: message, time: timeString });
+        chatInput.value = "";
+
+        setTimeout(() => {
+            const responses = [
+                "I'll check with our team and get back to you.",
+                "That’s a great point! We'll incorporate that feedback.",
+                "Thanks for sharing the update!",
+                "Looking forward to our next session."
+            ];
+            const botReply = responses[Math.floor(Math.random() * responses.length)];
+            
+            const replyDiv = document.createElement("div");
+            replyDiv.classList.add("message", "received");
+            replyDiv.innerHTML = `
+                <div class="message-content">
+                    <p>${botReply}</p>
+                    <span class="message-time">${timeString}</span>
+                </div>
+            `;
+
+            chatMessages.appendChild(replyDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            chatData[currentChatUser].push({ type: "received", text: botReply, time: timeString });
+        }, Math.random() * 2000 + 1000);
+    }
+
+    chatSendBtn.addEventListener("click", sendMessage);
+    chatInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") sendMessage();
+    });
+
+    // Load initial chat
+    loadChat(currentChatUser);
+});
+ 
   
     // Animate Stats on Load
     function animateStats() {
@@ -422,26 +430,47 @@ document.addEventListener("DOMContentLoaded", () => {
           duration: 0.3,
         })
       })
+      const referralLink = document.querySelector(".referral-link")
+      const copyLinkBtn = document.querySelector(".referral-section .primary-btn")
+    
+      if (referralLink && copyLinkBtn) {
+        copyLinkBtn.addEventListener("click", function () {
+          referralLink.select()
+          document.execCommand("copy")
+    
+          // Show copied notification
+          const originalText = this.textContent
+          this.textContent = "Copied!"
+    
+          setTimeout(() => {
+            this.textContent = originalText
+          }, 2000)
+        })
+      }
+    
+      const profileImage = document.querySelector(".profile-image img");
+      if (profileImage) {
+          profileImage.addEventListener("click", () => {
+              const input = document.createElement("input");
+              input.type = "file";
+              input.accept = "image/*";
+              input.addEventListener("change", (event) => {
+                  const file = event.target.files[0];
+                  if (file) {
+                      const reader = new FileReader();
+                      reader.onload = (e) => {
+                          profileImage.src = e.target.result;
+                      };
+                      reader.readAsDataURL(file);
+                  }
+              });
+              input.click();
+          });
+      }
+  
     })
   
-    // Copy referral link functionality
-    const referralLink = document.querySelector(".referral-link")
-    const copyLinkBtn = document.querySelector(".referral-section .primary-btn")
-  
-    if (referralLink && copyLinkBtn) {
-      copyLinkBtn.addEventListener("click", function () {
-        referralLink.select()
-        document.execCommand("copy")
-  
-        // Show copied notification
-        const originalText = this.textContent
-        this.textContent = "Copied!"
-  
-        setTimeout(() => {
-          this.textContent = originalText
-        }, 2000)
-      })
-    }
-  })
-  
-  
+    
+   
+
+
