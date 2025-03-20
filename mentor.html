@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentor Dashboard</title>
+    <link rel="stylesheet" href="mentor.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-text">MentorHub</span>
+                </div>
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            
+            <div class="profile-section">
+                <div class="profile-image">
+                    <img src="/placeholder.svg?height=100&width=100" alt="Profile">
+                </div>
+                <div class="profile-info">
+                    <h3>Alex Morgan</h3>
+                    <p>Tech Mentor</p>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item active" data-section="dashboard">
+                        <span class="nav-icon">📊</span>
+                        <span class="nav-text">Dashboard</span>
+                    </li>
+                    <li class="nav-item" data-section="requests">
+                        <span class="nav-icon">📝</span>
+                        <span class="nav-text">My Requests</span>
+                    </li>
+                    <li class="nav-item" data-section="sessions">
+                        <span class="nav-icon">🗓️</span>
+                        <span class="nav-text">Upcoming Sessions</span>
+                    </li>
+                    <li class="nav-item" data-section="startups">
+                        <span class="nav-icon">🚀</span>
+                        <span class="nav-text">AI-Suggested Startups</span>
+                    </li>
+                    <li class="nav-item" data-section="earnings">
+                        <span class="nav-icon">💰</span>
+                        <span class="nav-text">Earnings & Rewards</span>
+                    </li>
+                    <li class="nav-item" data-section="chat">
+                        <span class="nav-icon">💬</span>
+                        <span class="nav-text">Chat</span>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button class="settings-btn">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-text">Settings</span>
+                </button>
+                <button class="logout-btn">
+                    <span class="nav-icon">🚪</span>
+                    <span class="nav-text">Logout</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="top-bar">
+                <div class="search-container">
+                    <input type="text" placeholder="Search..." class="search-input">
+                    <button class="search-btn">🔍</button>
+                </div>
+                <div class="notification-container">
+                    <button class="notification-btn">🔔</button>
+                    <span class="notification-badge">3</span>
+                </div>
+            </div>
+            
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section active">
+                <h1 class="section-title">Dashboard Overview</h1>
+                
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-info">
+                            <h3>Total Sessions</h3>
+                            <p class="stat-value">248</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⏳</div>
+                        <div class="stat-info">
+                            <h3>Pending Requests</h3>
+                            <p class="stat-value">12</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-info">
+                            <h3>Average Rating</h3>
+                            <p class="stat-value">4.8</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💵</div>
+                        <div class="stat-info">
+                            <h3>Total Earnings</h3>
+                            <p class="stat-value">$12,450</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="ai-insights-box">
+                    <div class="insights-header">
+                        <h2>AI Insights</h2>
+                        <span class="pulse-dot"></span>
+                    </div>
+                    <div class="insights-content">
+                        <p>Based on your recent sessions, startups in <span class="highlight">FinTech</span> and <span class="highlight">AI</span> sectors show the highest engagement rates.</p>
+                        <p>Your expertise in <span class="highlight">Product Strategy</span> is highly rated (4.9/5). Consider focusing more on this area.</p>
+                    </div>
+                </div>
+                
+                <div class="recent-activity">
+                    <h2>Recent Activity</h2>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon">📈</div>
+                            <div class="activity-details">
+                                <h4>Session Completed</h4>
+                                <p>Product Strategy with TechFlow Inc.</p>
+                                <span class="activity-time">2 hours ago</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">📝</div>
+                            <div class="activity-details">
+                                <h4>New Request</h4>
+                                <p>Funding Strategy from NexGen AI</p>
+                                <span class="activity-time">Yesterday</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">💬</div>
+                            <div class="activity-details">
+                                <h4>New Message</h4>
+                                <p>From Sarah at CloudScale</p>
+                                <span class="activity-time">Yesterday</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="upcoming-session-preview">
+                    <h2>Next Session</h2>
+                    <div class="session-card">
+                        <div class="session-header">
+                            <h3>Product Market Fit Workshop</h3>
+                            <span class="session-badge">Today</span>
+                        </div>
+                        <div class="session-details">
+                            <p><strong>Startup:</strong> DataViz Solutions</p>
+                            <p><strong>Time:</strong> <span id="countdown">Loading...</span></p>
+                        </div>
+                        <div class="session-actions">
+                            <button class="btn primary-btn">Join Now</button>
+                            <button class="btn secondary-btn">Reschedule</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Requests Section -->
+            <section id="requests" class="content-section">
+                <h1 class="section-title">Mentorship Requests</h1>
+                
+                <div class="filter-container">
+                    <button class="filter-btn active">All Requests</button>
+                    <button class="filter-btn">Pending</button>
+                    <button class="filter-btn">Accepted</button>
+                    <button class="filter-btn">Rejected</button>
+                </div>
+                
+                <div class="requests-table">
+                    <div class="table-header">
+                        <div class="th">Startup</div>
+                        <div class="th">Topic</div>
+                        <div class="th">Date</div>
+                        <div class="th">Duration</div>
+                        <div class="th">Actions</div>
+                    </div>
+                    
+                    <div class="table-row">
+                        <div class="td startup-cell">
+                            <img src="/placeholder.svg?height=40&width=40" alt="Startup Logo">
+                            <span>NexGen AI</span>
+                        </div>
+                        <div class="td">Funding Strategy</div>
+                        <div class="td">Mar 22, 2025</div>
+                        <div class="td">60 min</div>
+                        <div class="td actions-cell">
+                            <button class="btn accept-btn" data-id="req1">Accept</button>
+                            <button class="btn reject-btn" data-id="req1">Reject</button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-row">
+                        <div class="td startup-cell">
+                            <img src="/placeholder.svg?height=40&width=40" alt="Startup Logo">
+                            <span>EcoSmart</span>
+                        </div>
+                        <div class="td">Product Strategy</div>
+                        <div class="td">Mar 24, 2025</div>
+                        <div class="td">45 min</div>
+                        <div class="td actions-cell">
+                            <button class="btn accept-btn" data-id="req2">Accept</button>
+                            <button class="btn reject-btn" data-id="req2">Reject</button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-row">
+                        <div class="td startup-cell">
+                            <img src="/placeholder.svg?height=40&width=40" alt="Startup Logo">
+                            <span>FinFlow</span>
+                        </div>
+                        <div class="td">Market Analysis</div>
+                        <div class="td">Mar 25, 2025</div>
+                        <div class="td">30 min</div>
+                        <div class="td actions-cell">
+                            <button class="btn accept-btn" data-id="req3">Accept</button>
+                            <button class="btn reject-btn" data-id="req3">Reject</button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-row">
+                        <div class="td startup-cell">
+                            <img src="/placeholder.svg?height=40&width=40" alt="Startup Logo">
+                            <span>HealthTech</span>
+                        </div>
+                        <div class="td">Pitch Deck Review</div>
+                        <div class="td">Mar 27, 2025</div>
+                        <div class="td">60 min</div>
+                        <div class="td actions-cell">
+                            <button class="btn accept-btn" data-id="req4">Accept</button>
+                            <button class="btn reject-btn" data-id="req4">Reject</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Sessions Section -->
+            <section id="sessions" class="content-section">
+                <h1 class="section-title">Upcoming Sessions</h1>
+                
+                <div class="calendar-view">
+                    <div class="calendar-header">
+                        <button class="calendar-nav prev">◀</button>
+                        <h2>March 2025</h2>
+                        <button class="calendar-nav next">▶</button>
+                    </div>
+                    <div class="calendar-days">
+                        <div class="day-name">Sun</div>
+                        <div class="day-name">Mon</div>
+                        <div class="day-name">Tue</div>
+                        <div class="day-name">Wed</div>
+                        <div class="day-name">Thu</div>
+                        <div class="day-name">Fri</div>
+                        <div class="day-name">Sat</div>
+                        
+                        <!-- Calendar days would be generated by JS -->
+                        <div class="day empty"></div>
+                        <div class="day empty"></div>
+                        <div class="day empty"></div>
+                        <div class="day empty"></div>
+                        <div class="day empty"></div>
+                        <div class="day">1</div>
+                        <div class="day">2</div>
+                        <div class="day">3</div>
+                        <div class="day">4</div>
+                        <div class="day">5</div>
+                        <div class="day">6</div>
+                        <div class="day">7</div>
+                        <div class="day">8</div>
+                        <div class="day">9</div>
+                        <div class="day">10</div>
+                        <div class="day">11</div>
+                        <div class="day">12</div>
+                        <div class="day">13</div>
+                        <div class="day">14</div>
+                        <div class="day">15</div>
+                        <div class="day">16</div>
+                        <div class="day">17</div>
+                        <div class="day">18</div>
+                        <div class="day">19</div>
+                        <div class="day">20</div>
+                        <div class="day has-event today">21</div>
+                        <div class="day has-event">22</div>
+                        <div class="day">23</div>
+                        <div class="day has-event">24</div>
+                        <div class="day has-event">25</div>
+                        <div class="day">26</div>
+                        <div class="day has-event">27</div>
+                        <div class="day">28</div>
+                        <div class="day">29</div>
+                        <div class="day">30</div>
+                        <div class="day">31</div>
+                    </div>
+                </div>
+                
+                <div class="upcoming-sessions">
+                    <h2>Today's Sessions</h2>
+                    <div class="session-list">
+                        <div class="session-item active">
+                            <div class="session-time">
+                                <span class="time">2:00 PM</span>
+                                <div class="time-indicator">
+                                    <div class="time-line"></div>
+                                    <div class="time-dot"></div>
+                                </div>
+                            </div>
+                            <div class="session-card">
+                                <div class="session-header">
+                                    <h3>Product Market Fit Workshop</h3>
+                                    <span class="countdown" id="session-countdown">2h 15m</span>
+                                </div>
+                                <div class="session-details">
+                                    <p><strong>Startup:</strong> DataViz Solutions</p>
+                                    <p><strong>Duration:</strong> 60 minutes</p>
+                                </div>
+                                <div class="session-actions">
+                                    <button class="btn primary-btn">Join Now</button>
+                                    <button class="btn secondary-btn">Reschedule</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="session-item">
+                            <div class="session-time">
+                                <span class="time">4:30 PM</span>
+                                <div class="time-indicator">
+                                    <div class="time-line"></div>
+                                    <div class="time-dot"></div>
+                                </div>
+                            </div>
+                            <div class="session-card">
+                                <div class="session-header">
+                                    <h3>Pitch Deck Review</h3>
+                                    <span class="session-badge">4h 45m</span>
+                                </div>
+                                <div class="session-details">
+                                    <p><strong>Startup:</strong> CloudScale</p>
+                                    <p><strong>Duration:</strong> 45 minutes</p>
+                                </div>
+                                <div class="session-actions">
+                                    <button class="btn primary-btn">Join Later</button>
+                                    <button class="btn secondary-btn">Reschedule</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h2>Upcoming Sessions</h2>
+                    <div class="session-list">
+                        <div class="session-item">
+                            <div class="session-time">
+                                <span class="time">Mar 22</span>
+                                <div class="time-indicator">
+                                    <div class="time-line"></div>
+                                    <div class="time-dot"></div>
+                                </div>
+                            </div>
+                            <div class="session-card">
+                                <div class="session-header">
+                                    <h3>Funding Strategy</h3>
+                                    <span class="session-badge">Tomorrow</span>
+                                </div>
+                                <div class="session-details">
+                                    <p><strong>Startup:</strong> NexGen AI</p>
+                                    <p><strong>Time:</strong> 10:00 AM</p>
+                                </div>
+                                <div class="session-actions">
+                                    <button class="btn secondary-btn">View Details</button>
+                                    <button class="btn secondary-btn">Reschedule</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="session-item">
+                            <div class="session-time">
+                                <span class="time">Mar 24</span>
+                                <div class="time-indicator">
+                                    <div class="time-line"></div>
+                                    <div class="time-dot"></div>
+                                </div>
+                            </div>
+                            <div class="session-card">
+                                <div class="session-header">
+                                    <h3>Product Strategy</h3>
+                                </div>
+                                <div class="session-details">
+                                    <p><strong>Startup:</strong> EcoSmart</p>
+                                    <p><strong>Time:</strong> 2:30 PM</p>
+                                </div>
+                                <div class="session-actions">
+                                    <button class="btn secondary-btn">View Details</button>
+                                    <button class="btn secondary-btn">Reschedule</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- AI-Suggested Startups Section -->
+            <section id="startups" class="content-section">
+                <h1 class="section-title">AI-Suggested Startups</h1>
+                
+                <div class="ai-explanation">
+                    <p>Based on your expertise and mentoring history, our AI has identified these startups that would benefit from your guidance.</p>
+                </div>
+                
+                <div class="startup-grid">
+                    <div class="startup-card">
+                        <div class="startup-header">
+                            <img src="/placeholder.svg?height=60&width=60" alt="Startup Logo">
+                            <div class="startup-info">
+                                <h3>QuantumLeap AI</h3>
+                                <span class="match-badge">98% Match</span>
+                            </div>
+                        </div>
+                        <div class="startup-details">
+                            <p><strong>Industry:</strong> Artificial Intelligence</p>
+                            <p><strong>Stage:</strong> Seed</p>
+                            <p><strong>Location:</strong> San Francisco, CA</p>
+                        </div>
+                        <div class="startup-description">
+                            <p>Developing quantum computing algorithms for predictive analytics in healthcare.</p>
+                        </div>
+                        <div class="expertise-match">
+                            <h4>Expertise Match</h4>
+                            <div class="match-areas">
+                                <span class="match-tag">AI</span>
+                                <span class="match-tag">Healthcare</span>
+                                <span class="match-tag">Funding</span>
+                            </div>
+                        </div>
+                        <div class="startup-actions">
+                            <button class="btn primary-btn">Connect</button>
+                            <button class="btn secondary-btn">View Profile</button>
+                        </div>
+                    </div>
+                    
+                    <div class="startup-card">
+                        <div class="startup-header">
+                            <img src="/placeholder.svg?height=60&width=60" alt="Startup Logo">
+                            <div class="startup-info">
+                                <h3>GreenTech Solutions</h3>
+                                <span class="match-badge">92% Match</span>
+                            </div>
+                        </div>
+                        <div class="startup-details">
+                            <p><strong>Industry:</strong> CleanTech</p>
+                            <p><strong>Stage:</strong> Series A</p>
+                            <p><strong>Location:</strong> Austin, TX</p>
+                        </div>
+                        <div class="startup-description">
+                            <p>Creating sustainable energy solutions for residential buildings using IoT.</p>
+                        </div>
+                        <div class="expertise-match">
+                            <h4>Expertise Match</h4>
+                            <div class="match-areas">
+                                <span class="match-tag">Sustainability</span>
+                                <span class="match-tag">IoT</span>
+                                <span class="match-tag">Product</span>
+                            </div>
+                        </div>
+                        <div class="startup-actions">
+                            <button class="btn primary-btn">Connect</button>
+                            <button class="btn secondary-btn">View Profile</button>
+                        </div>
+                    </div>
+                    
+                    <div class="startup-card">
+                        <div class="startup-header">
+                            <img src="/placeholder.svg?height=60&width=60" alt="Startup Logo">
+                            <div class="startup-info">
+                                <h3>FinEdge</h3>
+                                <span class="match-badge">89% Match</span>
+                            </div>
+                        </div>
+                        <div class="startup-details">
+                            <p><strong>Industry:</strong> FinTech</p>
+                            <p><strong>Stage:</strong> Pre-seed</p>
+                            <p><strong>Location:</strong> New York, NY</p>
+                        </div>
+                        <div class="startup-description">
+                            <p>Democratizing investment opportunities through blockchain technology.</p>
+                        </div>
+                        <div class="expertise-match">
+                            <h4>Expertise Match</h4>
+                            <div class="match-areas">
+                                <span class="match-tag">FinTech</span>
+                                <span class="match-tag">Blockchain</span>
+                                <span class="match-tag">Strategy</span>
+                            </div>
+                        </div>
+                        <div class="startup-actions">
+                            <button class="btn primary-btn">Connect</button>
+                            <button class="btn secondary-btn">View Profile</button>
+                        </div>
+                    </div>
+                    
+                    <div class="startup-card">
+                        <div class="startup-header">
+                            <img src="/placeholder.svg?height=60&width=60" alt="Startup Logo">
+                            <div class="startup-info">
+                                <h3>MediSync</h3>
+                                <span class="match-badge">85% Match</span>
+                            </div>
+                        </div>
+                        <div class="startup-details">
+                            <p><strong>Industry:</strong> HealthTech</p>
+                            <p><strong>Stage:</strong> Seed</p>
+                            <p><strong>Location:</strong> Boston, MA</p>
+                        </div>
+                        <div class="startup-description">
+                            <p>AI-powered platform for remote patient monitoring and predictive diagnostics.</p>
+                        </div>
+                        <div class="expertise-match">
+                            <h4>Expertise Match</h4>
+                            <div class="match-areas">
+                                <span class="match-tag">Healthcare</span>
+                                <span class="match-tag">AI</span>
+                                <span class="match-tag">SaaS</span>
+                            </div>
+                        </div>
+                        <div class="startup-actions">
+                            <button class="btn primary-btn">Connect</button>
+                            <button class="btn secondary-btn">View Profile</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Earnings Section -->
+            <section id="earnings" class="content-section">
+                <h1 class="section-title">Earnings & Rewards</h1>
+                
+                <div class="earnings-overview">
+                    <div class="earnings-card total-earnings">
+                        <h2>Total Earnings</h2>
+                        <div class="earnings-value">$12,450</div>
+                        <div class="earnings-chart">
+                            <div class="chart-bar">
+                                <div class="chart-fill" style="height: 60%;"></div>
+                            </div>
+                            <div class="chart-bar">
+                                <div class="chart-fill" style="height: 80%;"></div>
+                            </div>
+                            <div class="chart-bar">
+                                <div class="chart-fill" style="height: 40%;"></div>
+                            </div>
+                            <div class="chart-bar">
+                                <div class="chart-fill" style="height: 70%;"></div>
+                            </div>
+                            <div class="chart-bar">
+                                <div class="chart-fill" style="height: 90%;"></div>
+                            </div>
+                            <div class="chart-bar">
+                                <div class="chart-fill" style="height: 75%;"></div>
+                            </div>
+                        </div>
+                        <div class="chart-labels">
+                            <span>Jan</span>
+                            <span>Feb</span>
+                            <span>Mar</span>
+                            <span>Apr</span>
+                            <span>May</span>
+                            <span>Jun</span>
+                        </div>
+                    </div>
+                    
+                    <div class="earnings-card pending-earnings">
+                        <h2>Pending Earnings</h2>
+                        <div class="earnings-value">$1,850</div>
+                        <div class="pending-details">
+                            <div class="pending-item">
+                                <span>DataViz Solutions</span>
+                                <span>$350</span>
+                            </div>
+                            <div class="pending-item">
+                                <span>NexGen AI</span>
+                                <span>$500</span>
+                            </div>
+                            <div class="pending-item">
+                                <span>CloudScale</span>
+                                <span>$1,000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="rewards-section">
+                    <h2>Mentor Rewards</h2>
+                    
+                    <div class="rewards-cards">
+                        <div class="reward-card">
+                            <div class="reward-icon">🏆</div>
+                            <div class="reward-details">
+                                <h3>Top Rated Mentor</h3>
+                                <p>Achieved 4.8+ rating for 3 consecutive months</p>
+                            </div>
+                        </div>
+                        
+                        <div class="reward-card">
+                            <div class="reward-icon">🚀</div>
+                            <div class="reward-details">
+                                <h3>Startup Accelerator</h3>
+                                <p>Helped 5+ startups secure funding</p>
+                            </div>
+                        </div>
+                        
+                        <div class="reward-card">
+                            <div class="reward-icon">💯</div>
+                            <div class="reward-details">
+                                <h3>Perfect Attendance</h3>
+                                <p>Completed 50 sessions without cancellations</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="leaderboard-section">
+                    <h2>Mentor Leaderboard</h2>
+                    
+                    <div class="leaderboard-table">
+                        <div class="table-header">
+                            <div class="th">Rank</div>
+                            <div class="th">Mentor</div>
+                            <div class="th">Sessions</div>
+                            <div class="th">Rating</div>
+                            <div class="th">Earnings</div>
+                        </div>
+                        
+                        <div class="table-row highlighted">
+                            <div class="td">1</div>
+                            <div class="td mentor-cell">
+                                <img src="/placeholder.svg?height=40&width=40" alt="Mentor">
+                                <span>You</span>
+                            </div>
+                            <div class="td">248</div>
+                            <div class="td">4.8</div>
+                            <div class="td">$12,450</div>
+                        </div>
+                        
+                        <div class="table-row">
+                            <div class="td">2</div>
+                            <div class="td mentor-cell">
+                                <img src="/placeholder.svg?height=40&width=40" alt="Mentor">
+                                <span>John Smith</span>
+                            </div>
+                            <div class="td">235</div>
+                            <div class="td">4.7</div>
+                            <div class="td">$11,890</div>
+                        </div>
+                        
+                        <div class="table-row">
+                            <div class="td">3</div>
+                            <div class="td mentor-cell">
+                                <img src="/placeholder.svg?height=40&width=40" alt="Mentor">
+                                <span>Sarah Johnson</span>
+                            </div>
+                            <div class="td">210</div>
+                            <div class="td">4.9</div>
+                            <div class="td">$10,450</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="referral-section">
+                    <h2>Referral Program</h2>
+                    
+                    <div class="referral-card">
+                        <div class="referral-info">
+                            <h3>Invite Other Mentors</h3>
+                            <p>Earn $200 for each mentor who joins and completes 5 sessions</p>
+                            <div class="referral-stats">
+                                <div class="stat">
+                                    <span class="stat-value">5</span>
+                                    <span class="stat-label">Invited</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">3</span>
+                                    <span class="stat-label">Joined</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">$600</span>
+                                    <span class="stat-label">Earned</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="referral-actions">
+                            <input type="text" value="https://mentorhub.com/ref/alex123" readonly class="referral-link">
+                            <button class="btn primary-btn">Copy Link</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Chat Section -->
+            <section id="chat" class="content-section">
+                <h1 class="section-title">Chat</h1>
+                
+                <div class="chat-container">
+                    <div class="chat-sidebar">
+                        <div class="chat-search">
+                            <input type="text" placeholder="Search conversations..." class="chat-search-input">
+                        </div>
+                        
+                        <div class="chat-contacts">
+                            <div class="chat-contact active">
+                                <img src="/placeholder.svg?height=50&width=50" alt="Contact">
+                                <div class="contact-info">
+                                    <h3>Sarah (CloudScale)</h3>
+                                    <p>Thanks for the feedback on our pitch...</p>
+                                </div>
+                                <div class="contact-meta">
+                                    <span class="time">2h</span>
+                                    <span class="unread">3</span>
+                                </div>
+                            </div>
+                            
+                            <div class="chat-contact">
+                                <img src="/placeholder.svg?height=50&width=50" alt="Contact">
+                                <div class="contact-info">
+                                    <h3>Mike (DataViz)</h3>
+                                    <p>Looking forward to our session today!</p>
+                                </div>
+                                <div class="contact-meta">
+                                    <span class="time">5h</span>
+                                </div>
+                            </div>
+                            
+                            <div class="chat-contact">
+                                <img src="/placeholder.svg?height=50&width=50" alt="Contact">
+                                <div class="contact-info">
+                                    <h3>Lisa (NexGen AI)</h3>
+                                    <p>Can we discuss our funding strategy?</p>
+                                </div>
+                                <div class="contact-meta">
+                                    <span class="time">1d</span>
+                                </div>
+                            </div>
+                            
+                            <div class="chat-contact">
+                                <img src="/placeholder.svg?height=50&width=50" alt="Contact">
+                                <div class="contact-info">
+                                    <h3>David (EcoSmart)</h3>
+                                    <p>I've updated our product roadmap</p>
+                                </div>
+                                <div class="contact-meta">
+                                    <span class="time">2d</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-main">
+                        <div class="chat-header">
+                            <div class="chat-user">
+                                <img src="/placeholder.svg?height=40&width=40" alt="User">
+                                <div class="user-info">
+                                    <h3>Sarah (CloudScale)</h3>
+                                    <span class="status online">Online</span>
+                                </div>
+                            </div>
+                            <div class="chat-actions">
+                                <button class="chat-action-btn">📞</button>
+                                <button class="chat-action-btn">📹</button>
+                                <button class="chat-action-btn">⋮</button>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="message-date">Today</div>
+                            
+                            <div class="message received">
+                                <img src="/placeholder.svg?height=40&width=40" alt="User">
+                                <div class="message-content">
+                                    <p>Hi Alex, thanks for the feedback on our pitch deck yesterday!</p>
+                                    <span class="message-time">10:30 AM</span>
+                                </div>
+                            </div>
+                            
+                            <div class="message sent">
+                                <div class="message-content">
+                                    <p>You're welcome, Sarah! Your team has made great progress.</p>
+                                    <span class="message-time">10:32 AM</span>
+                                </div>
+                            </div>
+                            
+                            <div class="message received">
+                                <img src="/placeholder.svg?height=40&width=40" alt="User">
+                                <div class="message-content">
+                                    <p>We've implemented the changes you suggested for the market analysis slide. Would you mind taking another look?</p>
+                                    <span class="message-time">10:35 AM</span>
+                                </div>
+                            </div>
+                            
+                            <div class="message received">
+                                <img src="/placeholder.svg?height=40&width=40" alt="User">
+                                <div class="message-content">
+                                    <p>I've attached the updated deck here.</p>
+                                    <div class="message-attachment">
+                                        <span class="attachment-icon">📄</span>
+                                        <span class="attachment-name">CloudScale_Pitch_V2.pdf</span>
+                                    </div>
+                                    <span class="message-time">10:36 AM</span>
+                                </div>
+                            </div>
+                            
+                            <div class="message sent">
+                                <div class="message-content">
+                                    <p>I'll review it before our session this afternoon. The market analysis was already strong, but I had a few ideas to make it even more compelling for investors.</p>
+                                    <span class="message-time">10:40 AM</span>
+                                </div>
+                            </div>
+                            
+                            <div class="message received">
+                                <img src="/placeholder.svg?height=40&width=40" alt="User">
+                                <div class="message-content">
+                                    <p>That's exactly what we need! We have a meeting with potential investors next week.</p>
+                                    <span class="message-time">10:42 AM</span>
+                                </div>
+                            </div>
+                            
+                            <div class="message received">
+                                <img src="/placeholder.svg?height=40&width=40" alt="User">
+                                <div class="message-content">
+                                    <p>By the way, do you have any contacts at Venture Capital firms focusing on cloud infrastructure?</p>
+                                    <span class="message-time">10:45 AM</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-input-container">
+                            <button class="chat-attach-btn">📎</button>
+                            <input type="text" placeholder="Type a message..." class="chat-input" id="chat-input">
+                            <button class="chat-send-btn" id="chat-send-btn">📤</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <script src="mentor.js"></script>
+</body>
+</html>
+
