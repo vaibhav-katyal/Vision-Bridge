@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionBridge - Investments</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="pages.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --secondary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-gradient: linear-gradient(to right, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.1));
+            --glass-effect: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --shadow-color: rgba(0, 0, 0, 0.25);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            --hover-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            --dark-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            background-image: radial-gradient(circle at top right, #101121, #0c0e1a);
+            color: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="0.5"/></svg>');
+            z-index: -1;
+            opacity: 0.4;
+        }
+
+        /* Animated gradient orbs */
+        .investments-container::before,
+        .investments-container::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+            animation: orb-float 15s infinite alternate ease-in-out;
+        }
+
+        .investments-container::before {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            top: -100px;
+            right: -100px;
+        }
+
+        .investments-container::after {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            bottom: -100px;
+            left: -100px;
+            animation-delay: -5s;
+        }
+
+        @keyframes orb-float {
+            0% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.1); }
+            100% { transform: translateY(0) scale(1); }
+        }
+
+        .investments-container {
+            padding: 3rem;
+            position: relative;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .investments-header {
+            margin-bottom: 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .investments-header h2 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 0;
+            text-shadow: var(--text-shadow);
+            position: relative;
+        }
+
+        .investments-header h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 80px;
+            height: 4px;
+            background: var(--primary-gradient);
+            border-radius: 4px;
+        }
+
+        .search-filters {
+            display: flex;
+            gap: 1rem;
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-effect);
+            box-shadow: var(--box-shadow);
+        }
+
+        .search-filters input,
+        .search-filters select {
+            padding: 0.75rem 1.25rem;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .search-filters input {
+            width: 280px;
+        }
+
+        .search-filters input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .search-filters select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            padding-right: 40px;
+        }
+
+        .search-filters input:focus,
+        .search-filters select:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(79, 172, 254, 0.5);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .investors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 2rem;
+            position: relative;
+        }
+
+        .investor-card {
+            background: var(--glass-effect);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .investor-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .investor-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--card-gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .investor-card:hover::before {
+            opacity: 1;
+        }
+
+        .investor-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .investor-avatar {
+            width: 80px;
+            height: 80px;
+            overflow: hidden;
+            border-radius: 16px;
+            position: relative;
+        }
+
+        .investor-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .investor-card:hover .investor-avatar img {
+            transform: scale(1.1);
+        }
+
+        .investor-info {
+            flex: 1;
+        }
+
+        .investor-info h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .investor-info p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+        }
+
+        .investor-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .investor-focus {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .focus-tag {
+            padding: 0.4rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            color: #a5b4fc;
+            transition: all 0.3s ease;
+        }
+
+        .investor-card:hover .focus-tag {
+            background: rgba(102, 126, 234, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .investor-description {
+            margin-bottom: 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        .investor-details {
+            margin-top: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .detail-label {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .detail-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Modal Styles */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 90%;
+            max-width: 700px;
+            background: linear-gradient(135deg, rgba(16, 17, 33, 0.9), rgba(12, 14, 26, 0.9));
+            border-radius: 20px;
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .modal-content {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--secondary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 2rem;
+            overflow-y: auto;
+            max-height: 70vh;
+        }
+
+        .investor-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .investor-profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 20px;
+            object-fit: cover;
+            margin-bottom: 1.5rem;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .investor-profile h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin: 0 0 0.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .investor-type {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .investor-profile .investor-focus {
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .investor-profile .investor-description {
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .investor-portfolio {
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+
+        .investor-portfolio h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+        }
+
+        .investor-portfolio h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 100%;
+            height: 3px;
+            background: var(--primary-gradient);
+            border-radius: 3px;
+        }
+
+        .portfolio-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .portfolio-item {
+            padding: 0.75rem 1.25rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            background: rgba(102, 126, 234, 0.15);
+            color: #a5b4fc;
+            transition: all 0.3s ease;
+        }
+
+        .portfolio-item:hover {
+            background: rgba(102, 126, 234, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .investor-profile .investor-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .investor-profile .detail-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .investor-profile .detail-label {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .investor-profile .detail-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .modal-footer {
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .btn {
+            padding: 0.9rem 2.5rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            outline: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.6);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .investments-container {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .investments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1.5rem;
+            }
+            
+            .search-filters {
+                width: 100%;
+            }
+            
+            .search-filters input {
+                flex: 1;
+            }
+            
+            .investors-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            .investments-container {
+                padding: 1.5rem;
+            }
+            
+            .search-filters {
+                flex-direction: column;
+                padding: 0.75rem;
+            }
+            
+            .investors-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .investments-header h2 {
+                font-size: 2.2rem;
+            }
+            
+            .investor-profile h2 {
+                font-size: 1.8rem;
+            }
+            
+            .investor-profile .investor-details {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation for new elements */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .investor-card {
+            animation: fadeInUp 0.6s ease forwards;
+            animation-delay: calc(var(--i, 0) * 0.1s);
+            opacity: 0;
+        }
+
+        .investor-card:nth-child(1) { --i: 1; }
+        .investor-card:nth-child(2) { --i: 2; }
+        .investor-card:nth-child(3) { --i: 3; }
+        .investor-card:nth-child(4) { --i: 4; }
+        .investor-card:nth-child(5) { --i: 5; }
+        .investor-card:nth-child(6) { --i: 6; }
+    </style>
+</head>
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <span class="logo-text">VisionBridge</span>
+                <div class="logo-underline"></div>
+            </div>
+            <button class="sidebar-toggle" id="sidebar-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                
+                    <a href="dashboard.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="mentoring.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        <span>Mentoring</span>
+                    </a>
+                </li>
+                <li>
+                    <!-- <li class="active"></li> -->
+                    <a href="investments.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-banknote"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
+                        <span>Investments</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="market-study.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bar-chart-3"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+                        <span>Market Study</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="network.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-network"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>
+                        <span>Networks</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="#settings">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                <span>Settings</span>
+            </a>
+            <button id="logout-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+    <div class="investments-container">
+        <div class="investments-header">
+            <h2>Investment Opportunities</h2>
+            <div class="search-filters">
+                <input type="text" placeholder="Search investors..." onkeyup="filterInvestors(this.value)">
+                <select onchange="filterInvestors()">
+                    <option value="">All Sectors</option>
+                    <option value="tech">Technology</option>
+                    <option value="health">Healthcare</option>
+                    <option value="retail">Retail</option>
+                    <option value="finance">Finance</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="investors-grid" id="investorsGrid">
+            <!-- Investors will be dynamically added here -->
+        </div>
+    </div>
+
+    <!-- Investor Details Modal -->
+    <div class="modal" id="investorModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Investor Details</h3>
+                <button class="close-modal" onclick="closeInvestorModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="modal-body" id="investorDetails">
+                <!-- Investor details will be dynamically added here -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="connectWithInvestor()">Connect</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="investorOverlay"></div>
+
+    <script src="investments.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>

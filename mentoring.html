@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionBridge - Mentoring</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="pages.css">
+    <style>
+        :root {
+            --primary: #3A86FF;
+            --primary-dark: #1a65e0;
+            --primary-light: #7aadff;
+            --gradient-primary: linear-gradient(135deg, #3A86FF, #5e17eb);
+            --gradient-secondary: linear-gradient(135deg, #5e17eb, #8338EC);
+            --accent: #FF006E;
+            --success: #38B000;
+            --warning: #FFBE0B;
+            --danger: #FF006E;
+            --background: #0f172a;
+            --background-light: #1a2234;
+            --background-lighter: #242d40;
+            --border: rgba(255, 255, 255, 0.1);
+            --text: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.6);
+            --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            --glow: 0 0 15px rgba(58, 134, 255, 0.3);
+        }
+
+        body {
+            background-color: var(--background);
+            background-image:
+                radial-gradient(circle at 15% 50%, rgba(94, 23, 235, 0.1) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(58, 134, 255, 0.1) 0%, transparent 25%);
+            color: var(--text);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(58, 134, 255, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(58, 134, 255, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(58, 134, 255, 0);
+            }
+        }
+
+        @keyframes slide-up {
+            0% {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* ===== MENTORING PAGE ===== */
+        .mentoring-container {
+            padding: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .page-title:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+
+        .mentoring-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .option-card {
+            background-color: rgba(26, 34, 52, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+
+        .option-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(58, 134, 255, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .option-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(58, 134, 255, 0.3);
+        }
+
+        .option-card:hover:before {
+            opacity: 1;
+        }
+
+        .ai-mentor {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .human-mentor {
+            animation: float 6s ease-in-out 3s infinite;
+        }
+
+        .option-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: #ffffff;
+            background: var(--gradient-primary);
+            box-shadow: 0 10px 20px rgba(58, 134, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .ai-mentor .option-icon {
+            background: var(--gradient-primary);
+        }
+
+        .human-mentor .option-icon {
+            background: var(--gradient-secondary);
+        }
+
+        .option-card:hover .option-icon {
+            transform: scale(1.1);
+            box-shadow: 0 15px 30px rgba(58, 134, 255, 0.4);
+        }
+
+        .option-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            background: linear-gradient(to right, #ffffff, rgba(255, 255, 255, 0.8));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .option-card p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 1.8rem;
+            font-weight: 500;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1rem;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 8px 16px rgba(58, 134, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(58, 134, 255, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-text {
+            background: transparent;
+            color: var(--text);
+            padding: 0.5rem 1rem;
+        }
+
+        .btn-text:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* AI Chat Interface */
+        .ai-chat-interface {
+            background-color: rgba(26, 34, 52, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            height: calc(100vh - 200px);
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            animation: slide-up 0.5s ease-out;
+            transform-origin: center bottom;
+        }
+
+        .chat-header {
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(36, 45, 64, 0.5);
+        }
+
+        .chat-header h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            scroll-behavior: smooth;
+        }
+
+        .chat-message {
+            display: flex;
+            gap: 1rem;
+            max-width: 90%;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .user-message .message-avatar {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .ai-message .message-avatar {
+            background: var(--gradient-secondary);
+            color: white;
+        }
+
+        .message-content {
+            padding: 1.2rem;
+            border-radius: 18px;
+            font-size: 1rem;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        .message-content:after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            transform: rotate(45deg);
+            top: 15px;
+        }
+
+        .user-message {
+            align-self: flex-end;
+        }
+
+        .user-message .message-content {
+            background: var(--gradient-primary);
+            color: white;
+            border-top-right-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .user-message .message-content:after {
+            background: var(--primary);
+            right: -5px;
+        }
+
+        .ai-message {
+            align-self: flex-start;
+        }
+
+        .ai-message .message-content {
+            background: rgba(36, 45, 64, 0.8);
+            border-top-left-radius: 4px;
+            margin-left: 10px;
+        }
+
+        .ai-message .message-content:after {
+            background: rgba(36, 45, 64, 0.8);
+            left: -5px;
+        }
+
+        .chat-input {
+            padding: 1.2rem 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 1rem;
+            background: rgba(36, 45, 64, 0.5);
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(58, 134, 255, 0.2);
+        }
+
+        .chat-input input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Mentors List */
+        .mentors-list {
+            background-color: rgba(26, 34, 52, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            animation: slide-up 0.5s ease-out;
+        }
+
+        .mentors-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .search-filters {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .search-filters input,
+        .search-filters select {
+            padding: 0.8rem 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+            font-size: 0.95rem;
+            min-width: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .search-filters input:focus,
+        .search-filters select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(58, 134, 255, 0.2);
+        }
+
+        .search-filters input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .mentors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .mentor-card {
+            background-color: rgba(36, 45, 64, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.2rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.5s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .mentor-card:nth-child(even) {
+            animation-delay: 0.1s;
+        }
+
+        .mentor-card:nth-child(3n) {
+            animation-delay: 0.2s;
+        }
+
+        .mentor-card:before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .mentor-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border-color: rgba(58, 134, 255, 0.3);
+        }
+
+        .mentor-card:hover:before {
+            top: 100%;
+            left: 100%;
+        }
+
+        .mentor-header {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+            align-items: center;
+        }
+
+        .mentor-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            font-weight: bold;
+            flex-shrink: 0;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .mentor-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .mentor-info h3 {
+            margin: 0 0 0.3rem 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .mentor-speciality {
+            display: inline-block;
+            background: rgba(58, 134, 255, 0.15);
+            color: var(--primary-light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .mentor-rating {
+            display: flex;
+            gap: 0.2rem;
+            margin-top: 0.5rem;
+            color: var(--warning);
+        }
+
+        .mentor-description {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .mentor-stats {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .mentor-cta {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.95);
+            width: 90%;
+            max-width: 700px;
+            background-color: var(--background-light);
+            border-radius: 1.5rem;
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(36, 45, 64, 0.5);
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .close-modal {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+        }
+
+        .modal-body {
+            padding: 2rem;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Scheduling Modal */
+        .schedule-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.95);
+            width: 90%;
+            max-width: 550px;
+            background-color: var(--background-light);
+            border-radius: 1.5rem;
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .schedule-modal.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .schedule-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.8rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(58, 134, 255, 0.2);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Scheduled Calls Section */
+        .scheduled-calls {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .call-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(36, 45, 64, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .call-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border-color: rgba(58, 134, 255, 0.2);
+        }
+
+        .call-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .call-time {
+            background: rgba(58, 134, 255, 0.15);
+            color: var(--primary-light);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .call-mentor {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .call-mentor h4 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .call-actions {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .btn-join {
+            background: var(--success);
+            color: white;
+            box-shadow: 0 5px 15px rgba(56, 176, 0, 0.3);
+        }
+
+        .btn-join:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(56, 176, 0, 0.4);
+        }
+
+        .btn-reschedule {
+            background: var(--warning);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 190, 11, 0.3);
+        }
+
+        .btn-reschedule:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 190, 11, 0.4);
+        }
+
+        .btn-cancel {
+            background: var(--danger);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 0, 110, 0.3);
+        }
+
+        .btn-cancel:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 0, 110, 0.4);
+        }
+
+        /* Header actions */
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .no-calls {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 3rem 0;
+        }
+
+        .no-calls svg {
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Notification badge */
+        .notification-badge {
+            position: relative;
+        }
+
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 18px;
+            height: 18px;
+            background-color: var(--success);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .mentoring-container {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mentoring-options {
+                grid-template-columns: 1fr;
+            }
+
+            .search-filters {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .search-filters input,
+            .search-filters select {
+                width: 100%;
+            }
+
+            .mentors-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .chat-header {
+                padding: 1rem;
+            }
+
+            .chat-input {
+                padding: 1rem;
+            }
+
+            .chat-input input {
+                padding: 0.8rem 1rem;
+            }
+        }
+
+        /* Loading Animation for AI Chat */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            margin: 0 2px;
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: loadingFade 1.4s infinite ease-in-out both;
+        }
+
+        .typing-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes loadingFade {
+
+            0%,
+            80%,
+            100% {
+                opacity: 0.4;
+                transform: scale(0.8);
+            }
+
+            40% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Glow effect for buttons */
+        .btn-primary:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            opacity: 0;
+            background: transparent;
+            box-shadow: 0 0 20px 3px rgba(58, 134, 255, 0.6);
+            transition: all 0.6s ease;
+        }
+
+        .btn-primary:hover:after {
+            opacity: 1;
+        }
+
+        /* Particle background effect */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Particle background -->
+    <div id="particles-js"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <span class="logo-text">VisionBridge</span>
+                <div class="logo-underline"></div>
+            </div>
+            <button class="sidebar-toggle" id="sidebar-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                
+                    <a href="dashboard.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="mentoring.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        <span>Mentoring</span>
+                    </a>
+                </li>
+                <li>
+                    <!-- <li class="active"></li> -->
+                    <a href="investments.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-banknote"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
+                        <span>Investments</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="market-study.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bar-chart-3"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+                        <span>Market Study</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="network.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-network"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>
+                        <span>Networks</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="#settings">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                <span>Settings</span>
+            </a>
+            <button id="logout-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <div class="mentoring-container">
+        <div class="page-title">
+            <h1>Find Your Perfect Mentor</h1>
+            <p>Connect with industry experts or get instant AI guidance to accelerate your journey</p>
+        </div>
+
+        <div class="header-actions">
+            <button class="btn btn-primary notification-badge" onclick="toggleScheduledCalls()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+                My Scheduled Calls
+                <span class="badge">2</span>
+            </button>
+        </div>
+
+        <div class="mentoring-options">
+            <div class="option-card ai-mentor">
+                <div class="option-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2a10 10 0 1 0 10 10H12V2Z" />
+                        <path d="M12 12 2.01 12.01" />
+                        <path d="M12 2v10" />
+                        <circle cx="12" cy="12" r="4" opacity="0.6" />
+                    </svg>
+                </div>
+                <h2>AI Mentoring</h2>
+                <p>Get instant guidance from our AI mentor powered by advanced algorithms. Available 24/7 to answer your
+                    questions and provide personalized advice.</p>
+                <button class="btn btn-primary" onclick="startAIMentoring()">
+                    Start AI Session
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+            <div class="option-card human-mentor">
+                <div class="option-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                </div>
+                <h2>Human Mentors</h2>
+                <p>Connect with experienced entrepreneurs and industry experts who've been where you are now. Get
+                    tailored advice and build valuable relationships.</p>
+                <button class="btn btn-primary" onclick="showMentorsList()">
+                    Find Mentors
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- AI Chat Interface -->
+        <div class="ai-chat-interface" style="display: none;">
+            <div class="chat-header">
+                <button class="btn btn-text" onclick="closeAIChat()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 12H5M12 19l-7-7 7-7" />
+                    </svg>
+                    Back
+                </button>
+                <h2>AI Mentor Chat</h2>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <!-- Example messages for visual demonstration -->
+                <div class="chat-message ai-message">
+                    <div class="message-avatar">AI</div>
+                    <div class="message-content">
+                        Hello! I'm your AI mentor. How can I help you with your entrepreneurial journey today?
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="userMessage" placeholder="Type your message...">
+                <button class="btn btn-primary" onclick="sendMessage()">
+                    Send
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m3 3 3 9-3 9 19-9Z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="mentor-cta">
+            <button class="btn btn-primary" onclick="showScheduleModal()">
+                Schedule Call
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mentors List -->
+        <div class="mentors-list" style="display: none;">
+            <div class="mentors-header">
+                <button class="btn btn-text" onclick="closeMentorsList()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 12H5M12 19l-7-7 7-7" />
+                    </svg>
+                    Back
+                </button>
+                <div class="search-filters">
+                    <input type="text" placeholder="Search mentors..." onkeyup="filterMentors(this.value)">
+                    <select onchange="filterMentors()">
+                        <option value="">All Domains</option>
+                        <option value="tech">Technology</option>
+                        <option value="finance">Finance</option>
+                        <option value="marketing">Marketing</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mentors-grid" id="mentorsGrid">
+                <!-- Mentors will be dynamically added here -->
+            </div>
+        </div>
+
+        <div class="scheduled-calls">
+            <div class="mentors-header">
+                <button class="btn btn-text" onclick="closeScheduledCalls()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 12H5M12 19l-7-7 7-7" />
+                    </svg>
+                    Back
+                </button>
+                <h2>Your Scheduled Calls</h2>
+            </div>
+
+            <div class="call-card">
+                <div class="call-info">
+                    <div class="call-time">Today, 3:00 PM</div>
+                    <div class="call-mentor">
+                        <h4>Sarah Johnson</h4>
+                        <span>Technology Mentor</span>
+                    </div>
+                </div>
+                <div class="call-actions">
+                    <a href="video-call-app/public/video-call.html"><button class="btn btn-join">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M23 7l-7-5v10M16 7l-7-5v10M9 7L2 2v10M1 12a9 9 0 0 0 9 9c2.39 0 4.68-.94 6.4-2.6" />
+                            <circle cx="18" cy="18" r="3" />
+                        </svg>
+                        Join Call
+                    </button></a>
+                    <button class="btn btn-reschedule">Reschedule</button>
+                    <button class="btn btn-cancel">Cancel</button>
+                </div>
+            </div>
+
+            <div class="call-card">
+                <div class="call-info">
+                    <div class="call-time">Tomorrow, 10:00 AM</div>
+                    <div class="call-mentor">
+                        <h4>Michael Chen</h4>
+                        <span>Finance Mentor</span>
+                    </div>
+                </div>
+                <div class="call-actions">
+                    <button class="btn btn-reschedule">Reschedule</button>
+                    <button class="btn btn-cancel">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Mentor Details Modal -->
+    <div class="modal" id="mentorModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Mentor Details</h3>
+                <button class="close-modal" onclick="closeMentorModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" id="mentorDetails">
+                <!-- Mentor details will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+
+    <div class="schedule-modal" id="scheduleModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Schedule a Call</h3>
+                <button class="close-modal" onclick="closeScheduleModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="schedule-form">
+                    <div class="form-group">
+                        <label for="call-date">Select Date</label>
+                        <input type="date" id="call-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="call-time">Select Time</label>
+                        <select id="call-time" required>
+                            <option value="">Select a time slot</option>
+                            <option value="9:00">9:00 AM</option>
+                            <option value="10:00">10:00 AM</option>
+                            <option value="11:00">11:00 AM</option>
+                            <option value="13:00">1:00 PM</option>
+                            <option value="14:00">2:00 PM</option>
+                            <option value="15:00">3:00 PM</option>
+                            <option value="16:00">4:00 PM</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="call-duration">Duration</label>
+                        <select id="call-duration" required>
+                            <option value="30">30 minutes</option>
+                            <option value="45">45 minutes</option>
+                            <option value="60">60 minutes</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="call-topics">Topics to Discuss</label>
+                        <textarea id="call-topics"
+                            placeholder="What topics would you like to discuss during this call?"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Confirm Scheduling</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="scheduleOverlay"></div>
+
+    <div class="overlay" id="mentorOverlay"></div>
+
+    <script>
+        function showScheduleModal() {
+            document.getElementById('scheduleModal').classList.add('active');
+            document.getElementById('scheduleOverlay').classList.add('active');
+        }
+
+        function closeScheduleModal() {
+            document.getElementById('scheduleModal').classList.remove('active');
+            document.getElementById('scheduleOverlay').classList.remove('active');
+        }
+
+        function toggleScheduledCalls() {
+            const scheduledCalls = document.querySelector('.scheduled-calls');
+            const mentoringOptions = document.querySelector('.mentoring-options');
+            const aiChat = document.querySelector('.ai-chat-interface');
+            const mentorsList = document.querySelector('.mentors-list');
+
+            scheduledCalls.style.display = 'block';
+            mentoringOptions.style.display = 'none';
+            aiChat.style.display = 'none';
+            mentorsList.style.display = 'none';
+        }
+
+        function closeScheduledCalls() {
+            document.querySelector('.scheduled-calls').style.display = 'none';
+            document.querySelector('.mentoring-options').style.display = 'grid';
+        }
+    </script>
+
+    <script src="mentoring.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+
+</html>

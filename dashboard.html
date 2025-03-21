@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionBridge - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+</head>
+<body class="dark">
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar"; ">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-text">VisionBridge</span>
+                    <div class="logo-underline"></div>
+                </div>
+                <button class="sidebar-toggle" id="sidebar-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg>
+                </button>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active">
+                        <a href="#dashboard">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#mentoring">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            <span>Mentoring</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#investments">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-banknote"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
+                            <span>Investments</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#market">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bar-chart-3"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+                            <span>Market Study</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#network">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-network"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>
+                            <span>Networks</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#settings">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <span>Settings</span>
+                </a>
+                <button id="logout-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="dashboard-header">
+                <div class="header-left">
+                    <button class="mobile-sidebar-toggle" id="mobile-sidebar-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+                    </button>
+                    <h1>Dashboard</h1>
+                </div>
+                <div class="header-right">
+                    <div class="search-bar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        <input type="text" placeholder="Search...">
+                    </div>
+                    <div class="notifications">
+                        <button class="notification-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                            <span class="notification-badge">3</span>
+                        </button>
+                    </div>
+                    <div class="profile" id="profile-trigger">
+                        <div class="profile-avatar">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile">
+                        </div>
+                        <div class="profile-info">
+                            <span class="profile-name">John Doe</span> <!-- This will be updated -->
+                            <span class="profile-role">Entrepreneur</span>
+                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+                    </div>
+                </div>
+            </header>
+
+            <div class="dashboard-content">
+                <!-- Overview Section -->
+                <section class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Overview</h2>
+                        <div class="date-filter">
+                            <button class="date-filter-btn">
+                                <span>Last 30 Days</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon mentor-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Mentor Matches</span>
+                                <span class="stat-value">5</span>
+                                <span class="stat-change positive">+2 this month</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon meeting-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Upcoming Meetings</span>
+                                <span class="stat-value">3</span>
+                                <span class="stat-change">Next: Tomorrow, 2:00 PM</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon investment-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Investment Opportunities</span>
+                                <span class="stat-value">2</span>
+                                <span class="stat-change positive">New opportunity available</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon task-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Tasks Completed</span>
+                                <span class="stat-value">12/15</span>
+                                <span class="stat-change">80% completion rate</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Startup Progress Section -->
+                <section class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Startup Progress</h2>
+                        <button class="btn btn-outline btn-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                            Update
+                        </button>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-stages">
+                            <div class="progress-stage completed">
+                                <div class="stage-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><polyline points="20 6 9 17 4 12"/></svg>
+                                </div>
+                                <div class="stage-info">
+                                    <h3>Idea Validation</h3>
+                                    <p>Completed on March 15, 2025</p>
+                                </div>
+                            </div>
+                            <div class="progress-stage completed">
+                                <div class="stage-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><polyline points="20 6 9 17 4 12"/></svg>
+                                </div>
+                                <div class="stage-info">
+                                    <h3>MVP Development</h3>
+                                    <p>Completed on March 20, 2025</p>
+                                </div>
+                            </div>
+                            <div class="progress-stage active">
+                                <div class="stage-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle"><circle cx="12" cy="12" r="10"/></svg>
+                                </div>
+                                <div class="stage-info">
+                                    <h3>Market Testing</h3>
+                                    <p>In progress - 60% complete</p>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 60%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="progress-stage">
+                                <div class="stage-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle"><circle cx="12" cy="12" r="10"/></svg>
+                                </div>
+                                <div class="stage-info">
+                                    <h3>Seed Funding</h3>
+                                    <p>Not started</p>
+                                </div>
+                            </div>
+                            <div class="progress-stage">
+                                <div class="stage-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle"><circle cx="12" cy="12" r="10"/></svg>
+                                </div>
+                                <div class="stage-info">
+                                    <h3>Scale & Growth</h3>
+                                    <p>Not started</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Mentor Matches Section -->
+                <section class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Your Mentor Matches</h2>
+                        <a href="#mentoring" class="btn btn-text">View All</a>
+                    </div>
+                    <div class="mentor-grid">
+                        <div class="mentor-card">
+                            <div class="mentor-header">
+                                <div class="mentor-avatar">
+                                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Johnson">
+                                </div>
+                                <div class="mentor-info">
+                                    <h3>Sarah Johnson</h3>
+                                    <p>Product Strategy | Former VP at TechGiant</p>
+                                </div>
+                            </div>
+                            <div class="mentor-body">
+                                <div class="mentor-expertise">
+                                    <span class="expertise-tag">Product</span>
+                                    <span class="expertise-tag">UX</span>
+                                    <span class="expertise-tag">Go-to-Market</span>
+                                </div>
+                                <p class="mentor-bio">20+ years experience in product development and strategy for tech startups and Fortune 500 companies.</p>
+                            </div>
+                            <div class="mentor-footer">
+                                <button class="btn btn-primary btn-sm">Schedule Meeting</button>
+                                <button class="btn btn-outline btn-sm">View Profile</button>
+                            </div>
+                        </div>
+                        <div class="mentor-card">
+                            <div class="mentor-header">
+                                <div class="mentor-avatar">
+                                    <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Michael Chen">
+                                </div>
+                                <div class="mentor-info">
+                                    <h3>Michael Chen</h3>
+                                    <p>Venture Capital | Partner at Horizon VC</p>
+                                </div>
+                            </div>
+                            <div class="mentor-body">
+                                <div class="mentor-expertise">
+                                    <span class="expertise-tag">Funding</span>
+                                    <span class="expertise-tag">Finance</span>
+                                    <span class="expertise-tag">Scaling</span>
+                                </div>
+                                <p class="mentor-bio">Investor with focus on early-stage tech startups. Has helped raise over $50M for portfolio companies.</p>
+                            </div>
+                            <div class="mentor-footer">
+                                <button class="btn btn-primary btn-sm">Schedule Meeting</button>
+                                <button class="btn btn-outline btn-sm">View Profile</button>
+                            </div>
+                        </div>
+                        <div class="mentor-card">
+                            <div class="mentor-header">
+                                <div class="mentor-avatar">
+                                    <img src="https://randomuser.me/api/portraits/women/28.jpg" alt="Priya Patel">
+                                </div>
+                                <div class="mentor-info">
+                                    <h3>Priya Patel</h3>
+                                    <p>Marketing | CMO at GrowthLabs</p>
+                                </div>
+                            </div>
+                            <div class="mentor-body">
+                                <div class="mentor-expertise">
+                                    <span class="expertise-tag">Marketing</span>
+                                    <span class="expertise-tag">Branding</span>
+                                    <span class="expertise-tag">Growth</span>
+                                </div>
+                                <p class="mentor-bio">Digital marketing expert specializing in customer acquisition and retention strategies for startups.</p>
+                            </div>
+                            <div class="mentor-footer">
+                                <button class="btn btn-primary btn-sm">Schedule Meeting</button>
+                                <button class="btn btn-outline btn-sm">View Profile</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Upcoming Meetings Section -->
+                <section class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Upcoming Meetings</h2>
+                        <button class="btn btn-primary btn-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+                            Schedule New
+                        </button>
+                    </div>
+                    <div class="meetings-list">
+                        <div class="meeting-card">
+                            <div class="meeting-date">
+                                <span class="date">22</span>
+                                <span class="month">MAR</span>
+                            </div>
+                            <div class="meeting-info">
+                                <h3>Product Strategy Session</h3>
+                                <p>with Sarah Johnson</p>
+                                <div class="meeting-details">
+                                    <span class="meeting-time">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                        2:00 PM - 3:00 PM
+                                    </span>
+                                    <span class="meeting-location">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-video"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/></svg>
+                                        Zoom Meeting
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="meeting-actions">
+                                <button class="btn btn-outline btn-sm">Reschedule</button>
+                                <button class="btn btn-text btn-sm">Cancel</button>
+                            </div>
+                        </div>
+                        <div class="meeting-card">
+                            <div class="meeting-date">
+                                <span class="date">25</span>
+                                <span class="month">MAR</span>
+                            </div>
+                            <div class="meeting-info">
+                                <h3>Funding Strategy Discussion</h3>
+                                <p>with Michael Chen</p>
+                                <div class="meeting-details">
+                                    <span class="meeting-time">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                        10:00 AM - 11:30 AM
+                                    </span>
+                                    <span class="meeting-location">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                                        Horizon VC Office
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="meeting-actions">
+                                <button class="btn btn-outline btn-sm">Reschedule</button>
+                                <button class="btn btn-text btn-sm">Cancel</button>
+                            </div>
+                        </div>
+                        <div class="meeting-card">
+                            <div class="meeting-date">
+                                <span class="date">28</span>
+                                <span class="month">MAR</span>
+                            </div>
+                            <div class="meeting-info">
+                                <h3>Marketing Strategy Workshop</h3>
+                                <p>with Priya Patel</p>
+                                <div class="meeting-details">
+                                    <span class="meeting-time">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                        3:30 PM - 5:00 PM
+                                    </span>
+                                    <span class="meeting-location">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-video"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/></svg>
+                                        Google Meet
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="meeting-actions">
+                                <button class="btn btn-outline btn-sm">Reschedule</button>
+                                <button class="btn btn-text btn-sm">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Tasks Section -->
+                <section class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Your Tasks</h2>
+                        <button class="btn btn-primary btn-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+                            Add Task
+                        </button>
+                    </div>
+                    <div class="tasks-container">
+                        <div class="tasks-list">
+                            <div class="task-item completed">
+                                <div class="task-checkbox">
+                                    <input type="checkbox" id="task1" checked>
+                                    <label for="task1"></label>
+                                </div>
+                                <div class="task-content">
+                                    <span class="task-title">Complete market research survey</span>
+                                    <span class="task-due">Completed on Mar 18</span>
+                                </div>
+                                <div class="task-priority high">High</div>
+                            </div>
+                            <div class="task-item completed">
+                                <div class="task-checkbox">
+                                    <input type="checkbox" id="task2" checked>
+                                    <label for="task2"></label>
+                                </div>
+                                <div class="task-content">
+                                    <span class="task-title">Prepare pitch deck draft</span>
+                                    <span class="task-due">Completed on Mar 19</span>
+                                </div>
+                                <div class="task-priority medium">Medium</div>
+                            </div>
+                            <div class="task-item">
+                                <div class="task-checkbox">
+                                    <input type="checkbox" id="task3">
+                                    <label for="task3"></label>
+                                </div>
+                                <div class="task-content">
+                                    <span class="task-title">Finalize user acquisition strategy</span>
+                                    <span class="task-due">Due Mar 23</span>
+                                </div>
+                                <div class="task-priority high">High</div>
+                            </div>
+                            <div class="task-item">
+                                <div class="task-checkbox">
+                                    <input type="checkbox" id="task4">
+                                    <label for="task4"></label>
+                                </div>
+                                <div class="task-content">
+                                    <span class="task-title">Review competitor analysis</span>
+                                    <span class="task-due">Due Mar 24</span>
+                                </div>
+                                <div class="task-priority medium">Medium</div>
+                            </div>
+                            <div class="task-item">
+                                <div class="task-checkbox">
+                                    <input type="checkbox" id="task5">
+                                    <label for="task5"></label>
+                                </div>
+                                <div class="task-content">
+                                    <span class="task-title">Prepare for investor meeting</span>
+                                    <span class="task-due">Due Mar 27</span>
+                                </div>
+                                <div class="task-priority high">High</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Profile Popup -->
+    <div class="profile-popup" id="profile-popup">
+        <div class="profile-popup-content">
+            <div class="profile-popup-header">
+                <h3>Profile</h3>
+                <button class="close-popup" id="close-profile">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+            </div>
+            <div class="profile-popup-body">
+                <div class="profile-details">
+                    <div class="profile-avatar-large">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile">
+                        <button class="edit-avatar">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                        </button>
+                    </div>
+                    <div class="profile-info-large">
+                        <h2>John Doe</h2> <!-- This will be updated -->
+                        <p>Entrepreneur</p>
+                        <div class="profile-stats">
+                            <div class="profile-stat">
+                                <span class="stat-value">5</span>
+                                <span class="stat-label">Mentors</span>
+                            </div>
+                            <div class="profile-stat">
+                                <span class="stat-value">12</span>
+                                <span class="stat-label">Meetings</span>
+                            </div>
+                            <div class="profile-stat">
+                                <span class="stat-value">2</span>
+                                <span class="stat-label">Projects</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-sections">
+                    <div class="profile-section">
+                        <h4>Personal Information</h4>
+                        <div class="profile-field">
+                            <label>Email</label>
+                            <p>john.doe@example.com</p>
+                        </div>
+                        <div class="profile-field">
+                            <label>Phone</label>
+                            <p>+1 (555) 123-4567</p>
+                        </div>
+                        <div class="profile-field">
+                            <label>Location</label>
+                            <p>San Francisco, CA</p>
+                        </div>
+                    </div>
+                    <div class="profile-section">
+                        <h4>Startup Information</h4>
+                        <div class="profile-field">
+                            <label>Startup Name</label>
+                            <p>EcoTech Solutions</p>
+                        </div>
+                        <div class="profile-field">
+                            <label>Industry</label>
+                            <p>Sustainability</p>
+                        </div>
+                        <div class="profile-field">
+                            <label>Stage</label>
+                            <p>Early Traction</p>
+                        </div>
+                    </div>
+                    <div class="profile-section">
+                        <h4>Account Settings</h4>
+                        <button class="btn btn-outline btn-block">Edit Profile</button>
+                        <button class="btn btn-outline btn-block">Change Password</button>
+                        <button class="btn btn-danger btn-block" id="delete-account-btn">Delete Account</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Account Confirmation Modal -->
+    <div class="modal" id="delete-account-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Delete Account</h3>
+                <button class="close-modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="warning-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-alert-triangle"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                </div>
+                <p>Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently removed.</p>
+                <div class="confirmation-input">
+                    <label for="delete-confirmation">Type "DELETE" to confirm</label>
+                    <input type="text" id="delete-confirmation" placeholder="DELETE">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancel-delete">Cancel</button>
+                <button class="btn btn-danger" id="confirm-delete" disabled>Delete Account</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
+
