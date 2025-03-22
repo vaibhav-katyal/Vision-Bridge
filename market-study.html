@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionBridge - Market Study</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="pages.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Enhanced UI Styles */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #3a86ff, #8338ec);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --hover-shadow: 0 15px 35px rgba(58, 134, 255, 0.2);
+            --accent-glow: 0 0 15px rgba(58, 134, 255, 0.5);
+            --border-radius: 1.5rem;
+            --transition-speed: 0.4s;
+        }
+
+        body {
+            background-image: radial-gradient(circle at top right, rgba(58, 134, 255, 0.05), transparent 70%),
+                             radial-gradient(circle at bottom left, rgba(131, 56, 236, 0.05), transparent 70%);
+            background-attachment: fixed;
+        }
+
+        .market-study-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .market-study-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+            position: relative;
+        }
+
+        .market-study-header h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+            position: relative;
+        }
+
+        .market-study-header h2::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            width: 100px;
+            height: 4px;
+            transform: translateX(-50%);
+            background: var(--primary-gradient);
+            border-radius: 2px;
+        }
+
+        .domain-search {
+            max-width: 700px;
+            margin: 2.5rem auto;
+            display: flex;
+            gap: 1rem;
+            padding: 0.5rem;
+            background-color: var(--background-light);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            transition: all var(--transition-speed) ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .domain-search:hover {
+            box-shadow: var(--hover-shadow);
+            transform: translateY(-3px);
+        }
+
+        .domain-search::before {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--primary-gradient);
+            z-index: -1;
+            border-radius: calc(var(--border-radius) + 2px);
+            opacity: 0;
+            transition: opacity var(--transition-speed) ease;
+        }
+
+        .domain-search:focus-within::before {
+            opacity: 1;
+        }
+
+        .domain-search input {
+            flex: 1;
+            padding: 1.2rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            background-color: var(--background-lighter);
+            font-size: 1.1rem;
+            transition: all var(--transition-speed) ease;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .domain-search input:focus {
+            outline: none;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .domain-search .btn {
+            padding: 1.2rem 2rem;
+            border: none;
+            border-radius: var(--border-radius);
+            background-image: var(--primary-gradient);
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .domain-search .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.7s ease;
+        }
+
+        .domain-search .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--accent-glow);
+        }
+
+        .domain-search .btn:hover::before {
+            left: 100%;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .chart-card {
+            background-color: var(--background-light);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            transition: all var(--transition-speed) ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .chart-card h3 {
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            color: var(--text);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+        }
+
+        .chart-card h3::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary-gradient);
+            border-radius: 1.5px;
+        }
+
+        .chart-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: var(--primary-gradient);
+            opacity: 0.05;
+            border-radius: 50%;
+            transform: translate(30%, -30%);
+        }
+
+        .analysis-insights {
+            background-color: var(--background-light);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            box-shadow: var(--card-shadow);
+            transition: all var(--transition-speed) ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .analysis-insights:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .analysis-insights h3 {
+            margin-bottom: 2rem;
+            font-weight: 600;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+        }
+
+        .analysis-insights h3::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary-gradient);
+            border-radius: 1.5px;
+        }
+
+        .insight-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+            padding: 1.2rem;
+            background-color: var(--background-lighter);
+            border-radius: 1rem;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .insight-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .insight-item svg {
+            min-width: 22px;
+            height: 22px;
+            stroke: #3a86ff;
+        }
+
+        .insight-item p {
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .loader {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 1.5rem;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        #loader-circle {
+            fill: none;
+            stroke-width: 4;
+            stroke-linecap: round;
+            animation: rotate 2s linear infinite;
+            stroke-dasharray: 150, 200;
+            stroke-dashoffset: -10;
+        }
+
+        .loading-overlay p {
+            color: white;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        /* Add gradient definitions for the loader */
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        svg defs {
+            position: absolute;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--background-lighter);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #3a86ff, #8338ec);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #3678e6, #722fd0);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .chart-card, .analysis-insights {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .market-study-header h2 {
+                font-size: 2.2rem;
+            }
+            
+            .domain-search {
+                flex-direction: column;
+            }
+            
+            .domain-search input, .domain-search .btn {
+                width: 100%;
+            }
+        }
+
+        /* Animation for card appearance */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #analysisResults {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .chart-card:nth-child(1) { animation: fadeInUp 0.6s ease-out 0.1s backwards; }
+        .chart-card:nth-child(2) { animation: fadeInUp 0.6s ease-out 0.2s backwards; }
+        .chart-card:nth-child(3) { animation: fadeInUp 0.6s ease-out 0.3s backwards; }
+        .chart-card:nth-child(4) { animation: fadeInUp 0.6s ease-out 0.4s backwards; }
+        .analysis-insights { animation: fadeInUp 0.6s ease-out 0.5s backwards; }
+    </style>
+</head>
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <span class="logo-text">VisionBridge</span>
+                <div class="logo-underline"></div>
+            </div>
+            <button class="sidebar-toggle" id="sidebar-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                
+                    <a href="dashboard.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="mentoring.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        <span>Mentoring</span>
+                    </a>
+                </li>
+                <li>
+                    <!-- <li class="active"></li> -->
+                    <a href="investments.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-banknote"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
+                        <span>Investments</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="market-study.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bar-chart-3"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+                        <span>Market Study</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="network.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-network"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>
+                        <span>Networks</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="#settings">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                <span>Settings</span>
+            </a>
+            <button id="logout-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+    <div class="market-study-container">
+        <div class="market-study-header">
+            <h2>Market Analysis</h2>
+            <div class="domain-search">
+                <input type="text" id="domainInput" placeholder="Enter your business domain...">
+                <button class="btn btn-primary" onclick="analyzeMarket()">Analyze</button>
+            </div>
+        </div>
+
+        <div class="analysis-results" id="analysisResults" style="display: none;">
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h3>Market Size & Growth</h3>
+                    <canvas id="marketSizeChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Competitor Analysis</h3>
+                    <canvas id="competitorChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Customer Segments</h3>
+                    <canvas id="segmentChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Market Trends</h3>
+                    <canvas id="trendChart"></canvas>
+                </div>
+            </div>
+
+            <div class="analysis-insights">
+                <h3>Key Insights</h3>
+                <div id="keyInsights">
+                    <!-- Insights will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+
+        <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+            <div class="loader">
+                <svg viewBox="0 0 80 80">
+                    <defs>
+                        <linearGradient id="loader-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#3a86ff" />
+                            <stop offset="100%" stop-color="#8338ec" />
+                        </linearGradient>
+                    </defs>
+                    <circle id="loader-circle" cx="40" cy="40" r="32" stroke="url(#loader-gradient)"/>
+                </svg>
+            </div>
+            <p>Analyzing market data...</p>
+        </div>
+    </div>
+
+    <script src="market-study.js"></script>
+    <script src="dashboard.js"></script>
+
+</body>
+</html>
