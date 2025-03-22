@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     gsap.registerPlugin();
 
-    // Sidebar Toggle with Toggle Icon Always Visible
+    // Sidebar Toggle with Persistent Button
     const sidebarToggle = document.getElementById("sidebar-toggle");
     const sidebar = document.querySelector(".sidebar");
     const mainContent = document.querySelector(".main-content");
@@ -11,11 +11,11 @@ document.addEventListener("DOMContentLoaded", () => {
         mainContent.classList.toggle("expanded");
     });
 
-    // Ensure toggle icon remains visible even when sidebar is collapsed
-    sidebarToggle.style.position = "fixed";
-    sidebarToggle.style.left = "15px";
+    // Ensure toggle button stays inside the sidebar
+    sidebarToggle.style.position = "absolute";
+    sidebarToggle.style.right = "15px";
     sidebarToggle.style.top = "15px";
-    sidebarToggle.style.zIndex = "1001";
+    sidebarToggle.style.zIndex = "10";
     // Navigation Fix (Prevent Fading Out)
     const navItems = document.querySelectorAll(".nav-item");
     const contentSections = document.querySelectorAll(".content-section");
